@@ -213,9 +213,9 @@ function Sidebar({ active, setActive, stats }) {
   ];
 
   return (
-    <aside className="w-64 min-h-screen bg-slate-900 border-r border-slate-700/50 flex flex-col">
+    <aside className="w-full md:w-64 h-auto md:min-h-screen bg-slate-900 border-b md:border-b-0 md:border-r border-slate-700/50 flex flex-col z-20">
       {/* Logo */}
-      <div className="p-6 border-b border-slate-700/50">
+      <div className="p-4 md:p-6 border-b border-slate-700/50">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/25">
             <BookOpen size={18} className="text-white" />
@@ -228,12 +228,12 @@ function Sidebar({ active, setActive, stats }) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-4 space-y-1">
+      <nav className="flex-none flex flex-row overflow-x-auto md:flex-col md:flex-1 p-3 md:p-4 gap-2 md:space-y-1">
         {nav.map((item) => (
           <button
             key={item.id}
             onClick={() => setActive(item.id)}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${active === item.id
+            className={`flex items-center gap-2 md:gap-3 px-3 py-2 md:py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap shrink-0 md:w-full ${active === item.id
               ? "bg-violet-600/20 text-violet-300 border border-violet-500/30"
               : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
               }`}
@@ -245,7 +245,7 @@ function Sidebar({ active, setActive, stats }) {
       </nav>
 
       {/* Stats */}
-      <div className="p-4 border-t border-slate-700/50 space-y-3">
+      <div className="hidden md:block p-4 border-t border-slate-700/50 space-y-3">
         <p className="text-xs font-semibold text-slate-500 uppercase tracking-widest px-1">Today's Progress</p>
         <div className="bg-slate-800 rounded-xl p-3 space-y-2">
           <div className="flex justify-between text-xs text-slate-400">
@@ -299,7 +299,7 @@ function DashboardView({ tasks, cards, pomodoroCount }) {
         <p className="text-slate-400 mt-1 text-sm">Here's your study overview for today.</p>
       </div>
 
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {statCards.map((s) => (
           <div key={s.label} className={`rounded-2xl bg-gradient-to-br ${s.color} p-px shadow-lg ${s.shadow}`}>
             <div className="bg-slate-900 rounded-2xl p-4 h-full">
@@ -313,7 +313,7 @@ function DashboardView({ tasks, cards, pomodoroCount }) {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Priority Tasks */}
         <div className="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-4">
@@ -477,9 +477,9 @@ function TasksView({ tasks, setTasks, showMeme }) {
               <X size={16} />
             </button>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input
-              className="col-span-2 bg-slate-900 border border-slate-600 rounded-xl px-3 py-2.5 text-slate-200 text-sm placeholder-slate-500 focus:outline-none focus:border-violet-500"
+              className="col-span-1 sm:col-span-2 bg-slate-900 border border-slate-600 rounded-xl px-3 py-2.5 text-slate-200 text-sm placeholder-slate-500 focus:outline-none focus:border-violet-500"
               placeholder="Task title"
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
@@ -638,7 +638,7 @@ function PomodoroView({ pomodoroCount, setPomodoroCount, showMeme }) {
         <p className="text-slate-400 text-sm mt-1">Focus in sprints. Rest strategically.</p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Timer */}
         <div className="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-8 flex flex-col items-center">
           {/* Mode selector */}
@@ -867,7 +867,7 @@ function SpacedView({ cards, setCards, reviewed, setReviewed }) {
       </div>
 
       {/* Stats bar */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {[
           { label: "Due Today", value: dueCards.length, color: "text-red-400" },
           { label: "Total Cards", value: cards.length, color: "text-violet-400" },
@@ -1298,7 +1298,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex" style={{ fontFamily: "'Inter', system-ui, sans-serif", position: "relative" }}>
+    <div className="min-h-screen bg-slate-950 text-white flex flex-col md:flex-row" style={{ fontFamily: "'Inter', system-ui, sans-serif", position: "relative" }}>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -1319,11 +1319,11 @@ export default function App() {
       <MemeToast meme={activeMeme} onDone={() => setActiveMeme(null)} />
 
       {/* Sidebar — sits above particles */}
-      <div style={{ position: "relative", zIndex: 10 }}>
+      <div className="sticky top-0 z-20 md:relative" style={{ zIndex: 20 }}>
         <Sidebar active={active} setActive={setActive} stats={stats} />
       </div>
 
-      <main className="flex-1 p-8 overflow-y-auto max-h-screen" style={{ position: "relative", zIndex: 10 }}>
+      <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto w-full md:max-h-screen" style={{ position: "relative", zIndex: 10 }}>
         {active === "dashboard" && <DashboardView tasks={tasks} cards={cards} pomodoroCount={pomodoroCount} />}
         {active === "tasks" && <TasksView tasks={tasks} setTasks={setTasks} showMeme={showMeme} />}
         {active === "pomodoro" && <PomodoroView pomodoroCount={pomodoroCount} setPomodoroCount={setPomodoroCount} showMeme={showMeme} />}
